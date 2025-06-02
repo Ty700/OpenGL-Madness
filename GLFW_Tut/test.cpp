@@ -145,26 +145,39 @@ int main()
 		 0.0f,  0.5f, 0.0f,
 	};
 
-	/* ======== VERTEX BUFFER AND ARRAY SET UP ======== */
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
+	float verticies2[] = {
+		-0.5f, 0.5f, 0.0f,
+		 0.5f, 0.5f, 0.0f, 
+		 0.0f, -0.5f, 0.0f,
+	};
 
-	glGenBuffers(1, &VBO);
+	/* ======== VERTEX BUFFER AND ARRAY SET UP ======== */
+	unsigned int VBO1, VAO1, VBO2, VAO2;
+	glGenVertexArrays(1, &VAO1);
+
+	glGenBuffers(1, &VBO1);
 
 	/* Now bind VAO so it can track what we are doing! */
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO1);
 
-	/* Bind and set up vertex buffer */
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	/* Bind and set up vertex buffer for the first triangle */
+	glBindBuffer(GL_ARRAY_BUFFER, VBO1);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+	glEnableVertexAttribArray(0);
+	
+	/* 2nd Triangle */
+	glGenVertexArrays(1, &VAO2);
+	glGenBuffers(1, &VBO2);
+	glBindVertexArray(VAO2);
 
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies2), verticies2, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	glBindVertexArray(0);
-
 	/* Render loop */
 	while(!glfwWindowShouldClose(window))
 	{
@@ -190,11 +203,14 @@ int main()
 		glUniform4f(colorLocation, rVal, gVal, bVal, 1.0f);
 	
 		/* Bind the VAO with vertex data that we want to draw */
-		glBindVertexArray(VAO);
+		/* Draw first triangle */
+		glBindVertexArray(VAO1);
 
 		/* Draw GL_TRIANGLES with out VAO data */
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-
+		
+		glBindVertexArray(VAO2);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		/* GLFW Swap Buffers */
 		glfwSwapBuffers(window);
 
@@ -203,8 +219,10 @@ int main()
 	}
 
 	/* Clean up */
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO1);
+	glDeleteBuffers(1, &VBO1);
+	glDeleteVertexArrays(1, &VAO2);
+	glDeleteBuffers(1, &VBO2);
 	glDeleteProgram(myFirstShaderProgram);
 	glfwTerminate();
 }
