@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 
 /* Shader src code */
 const char *vertexShaderSource = "#version 330 core\n"
@@ -12,9 +13,10 @@ const char *vertexShaderSource = "#version 330 core\n"
 
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
+    "uniform vec4 ourColor;\n"  
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "   FragColor = ourColor;\n"  
     "}\n\0";
 
 /**
@@ -178,7 +180,15 @@ int main()
 	
 		/* Tell OpenGL what shader program to use */
 		glUseProgram(myFirstShaderProgram);
+		
+		float timeValue = glfwGetTime();
+		float rVal = (sin(timeValue) / 2.0f) + 0.5f; 
+		float gVal = (sin(timeValue + 2.0f) / 2.0f) + 0.5f;
+		float bVal = (sin(timeValue + 4.0f) / 4.0f) + 0.5f; 
 
+		int colorLocation = glGetUniformLocation(myFirstShaderProgram, "ourColor");
+		glUniform4f(colorLocation, rVal, gVal, bVal, 1.0f);
+	
 		/* Bind the VAO with vertex data that we want to draw */
 		glBindVertexArray(VAO);
 
