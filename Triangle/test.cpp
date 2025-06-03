@@ -166,15 +166,15 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 	
-	/* 2nd Triangle */
-	glGenVertexArrays(1, &VAO2);
-	glGenBuffers(1, &VBO2);
-	glBindVertexArray(VAO2);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies2), verticies2, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-	glEnableVertexAttribArray(0);
+	// /* 2nd Triangle */
+	// glGenVertexArrays(1, &VAO2);
+	// glGenBuffers(1, &VBO2);
+	// glBindVertexArray(VAO2);
+	//
+	// glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(verticies2), verticies2, GL_STATIC_DRAW);
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+	// glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -208,9 +208,10 @@ int main()
 
 		/* Draw GL_TRIANGLES with out VAO data */
 		glDrawArrays(GL_TRIANGLES, 0, 3);
-		
-		glBindVertexArray(VAO2);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// glBindVertexArray(VAO2);
+		// glDrawArrays(GL_TRIANGLES, 0, 3);
+		//
 		/* GLFW Swap Buffers */
 		glfwSwapBuffers(window);
 
